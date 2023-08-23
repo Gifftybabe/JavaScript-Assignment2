@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Azeeiah Bank</h1>
+        <p>Please Insert Your Card!</p>
+        <button onclick="startTransaction()">Start Transaction</button>
+    </div>
+    <script>
+        function startTransaction() {
+      const correctPin = "1234"; // Set your PIN here
+let accountBalance = 1000;
+let continueRunning = true;
+
+const authenticate = () => {
+    let attempts = 3;
+    while (attempts > 0) {
+        const enteredPin = prompt("Enter your PIN:");
+        if (enteredPin === correctPin) {
+            return true;
+        } else {
+            attempts--;
+            alert(`Incorrect PIN. You have ${attempts} attempts remaining.`);
+        }
+    }
+    return false;
+};
+
+
+
+if (authenticate()) {
+
+while (continueRunning) {
+    const menu =
+        "1. Check Balance\n" +
+        "2. Withdraw Money\n" +
+        "3. Deposit Money\n" +
+        "4. Make Transfer (Intra-Bank)\n" +
+        "5. Make Transfer (Inter-Bank)\n" +
+        "6. Exit";
+
+    const choice = parseInt(prompt(menu + "\n\nPlease select an option:\n"));
+
+    if (choice === 1) {
+        alert(`Your account balance is $${accountBalance}`);
+    } else if (choice === 2) {
+        const withdrawAmount = parseFloat(prompt("Enter the amount to withdraw:"));
+        if (withdrawAmount > accountBalance) {
+            alert("Insufficient funds.");
+        } else {
+            accountBalance -= withdrawAmount;
+            alert(`Withdrawal successful. Your new balance is $${accountBalance}`);
+        }
+    } else if (choice === 3) {
+        const depositAmount = parseFloat(prompt("Enter the amount to deposit:"));
+        accountBalance += depositAmount;
+        alert(`Deposit successful. Your new balance is $${accountBalance}`);
+    } else if (choice === 4) {
+        const intraBankTransferAmount = parseFloat(prompt("Enter the amount to transfer:"));
+        if (intraBankTransferAmount > accountBalance) {
+            alert("Insufficient funds.");
+        } else {
+            const destinationAccount = prompt("Enter the destination account number:");
+            accountBalance -= intraBankTransferAmount;
+            alert(`Transfer successful. Your new balance is $${accountBalance}`);
+            alert(`$${intraBankTransferAmount} transferred to account ${destinationAccount}`);
+        }
+    } else if (choice === 5) {
+        const interBankTransferAmount = parseFloat(prompt("Enter the amount to transfer:"));
+            if (interBankTransferAmount > accountBalance) {
+                alert("Insufficient funds.");
+            } else {
+                const selectedBank = prompt(
+                    "Select the bank for inter-bank transfer:\n1. FirstBank\n2. Union Bank\n3. Access Bank\n4. Fidelity Bank\n5. Microfinance Bank\n6. Others"
+                );
+
+                let destinationBank;
+
+                if (selectedBank === "6") {
+                    destinationBank = prompt("Enter the name of the other bank (or leave empty to cancel):");
+                    if (destinationBank === null || destinationBank === "") {
+                        alert("Inter-bank transfer canceled.");
+                        continue;
+                    }
+                } else {
+                    switch (selectedBank) {
+                        case "1":
+                            destinationBank = "FirstBank";
+                            break;
+                        case "2":
+                            destinationBank = "Union Bank";
+                            break;
+                        case "3":
+                            destinationBank = "Access Bank";
+                            break;
+                        case "4":
+                            destinationBank = "Fidelity Bank";
+                            break;
+                        case "5":
+                            destinationBank = "Microfinance Bank";
+                            break;
+                        default:
+                            alert("Invalid bank selection.");
+                            continue;
+                    }
+                }
+
+                const destinationAccount = prompt("Enter the destination account number:");
+                accountBalance -= interBankTransferAmount;
+                alert(`Inter-bank transfer successful. Your new balance is $${accountBalance}`);
+                alert(`$${interBankTransferAmount} transferred to account ${destinationAccount} at ${destinationBank}`);
+            }
+
+    } else if (choice === 6) {
+        alert("Thank you for using our ATM. Goodbye!");
+        continueRunning = false;
+    } else {
+        alert("Invalid choice. Please select a valid option.");
+    }
+}
+
+} else {
+    alert("Too many unsuccessful attempts. Exiting.");
+}
+
+        }
+
+    </script>
+</body>
+</html>
