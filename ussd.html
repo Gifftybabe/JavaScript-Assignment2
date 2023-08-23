@@ -3,68 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>USSD Banking App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #3498db;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>USSD Banking App</h1>
+        <p>Welcome to MyBank!</p>
+        <button onclick="startTransaction()">Start Transaction</button>
+    </div>
+
     <script>
-        let bankCode = prompt("Enter your bank code!");
-let options;
+        function startTransaction() {
+            let options;
 
-while (true) {
-    options = +prompt(`Select a transaction:
-    1. Airtime-Self
-    2. Airtime-Others
-    3. Data
-    4. Trsf-GTB
-    5. Trsf-others
-    6. Trsf-MFB/eWallet
-    7. Quick Transfer
-    8. Pay Bills
-    9. Next`);
+            while (true) {
+                options = +prompt(`Select a transaction:
+                1. Airtime-Self
+                2. Airtime-Others
+                3. Data
+                4. Trsf-GTB
+                5. Trsf-others
+                6. Trsf-MFB/eWallet
+                7. Quick Transfer
+                8. Pay Bills
+                9. Next`);
 
-    if (options >= 1 && options <= 9) {
-        break;
-    } else {
-        alert("Select a valid option");
-    }
-}
+                if (options >= 1 && options <= 9) {
+                    break;
+                } else {
+                    alert("Select a valid option");
+                }
+            }
 
-if (options === 1) {
-    let amountSelf;
+            if (options === 1) {
+                let amountSelf;
 
-    while (true) {
-        amountSelf = +prompt("Please enter amount:");
-        
-        if (!isNaN(amountSelf)) {
-            break;
-        } else {
-            alert("Enter a valid amount");
+                while (true) {
+                    amountSelf = +prompt("Please enter amount:");
+
+                    if (!isNaN(amountSelf)) {
+                        break;
+                    } else {
+                        alert("Enter a valid amount");
+                    }
+                }
+
+                alert(`Your recharge of ${amountSelf} was successful`);
+            } else if (options === 2) {
+                let mobileNumber;
+                let amountOthers;
+
+                while (true) {
+                    mobileNumber = String(prompt("Please enter 3rd party mobile number:"));
+                    amountOthers = Number(prompt("Please enter amount"));
+
+                    if (!isNaN(amountOthers)) {
+                        break;
+                    } else {
+                        alert("Enter a valid amount");
+                    }
+                }
+
+                let cancel = prompt(`Enter your PIN or Token code to Top Up ${mobileNumber} with NGN ${amountOthers} or enter 0 to cancel`);
+                if (cancel == 0) {
+                    alert("Transaction cancelled");
+                } else {
+                    alert("Transaction successful");
+                }
+            } // Add similar loops for the other options...
         }
-    }
-
-    alert(`Your recharge of ${amountSelf} was successful`);
-} else if (options === 2) {
-    let mobileNumber;
-    let amountOthers;
-
-    while (true) {
-        mobileNumber = String(prompt("Please enter 3rd party mobile number:"));
-        amountOthers = Number(prompt("Please enter amount"));
-
-        if (!isNaN(amountOthers)) {
-            break;
-        } else {
-            alert("Enter a valid amount");
-        }
-    }
-
-    let cancel = prompt(`Enter your PIN or Token code to Top Up ${mobileNumber} with NGN ${amountOthers} or enter 0 to cancel`);
-    if (cancel == 0) {
-        alert("Transaction cancelled");
-    } else {
-        alert("Transaction successful");
-    }
-} // Add similar loops for the other options...
     </script>
 </body>
 </html>
